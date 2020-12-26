@@ -1,0 +1,36 @@
+- hosts: mongo
+#  remote_user: someuser
+#  strategy: debug
+  become: yes
+  tasks:
+    - name: Stop Mongo Service
+      service: name=mongod state=stopped
+      tags: stop
+    - name: Determine pidof forked process
+      shell: pidof mongod
+      register: pid_results
+      check_mode: no
+      failed_when: pid_results == ""
+      tags: get-pid
+    - name: Terminate forked process
+      shell: kill $(pidof mongod)
+      register: kpid_results
+      check_mode: no
+      failed_when: kpid_results == ""
+      tags: kill-pid
+      when: pid_results != ""
+    - name: Start Mongo Service
+      service: name=mongod state=restarted
+      tags: start
+    - name: Mongo Service Status
+      shell: netstat -tlpn | grep mongod | cat
+      register: status_results
+      check_mode: no
+      tags: status
+    - name: Print Mongo Status
+      debug:
+        msg:
+          - "Mongo Status: {{status_results.stdout}}"
+      when: status_results != ""
+      tags: print-status
+

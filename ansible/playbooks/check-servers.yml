@@ -1,0 +1,14 @@
+- hosts: all
+  become: yes
+  tasks:
+    - name: Ping Servers
+      shell: uname -a
+      register: results
+      check_mode: no
+      tags: ping
+    - name: Print Server Status
+      debug:
+        msg:
+          - "Server Status: {{results.stdout}}"
+      when: results != ""
+      tags: print-status

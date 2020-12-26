@@ -1,0 +1,10 @@
+- hosts: web
+  become: true
+  tasks:
+    - name: restart tomcat
+      service: name=tomcat state=restarted
+      tags: restart
+    - name: stop tomcat
+      service: name=tomcat state=stopped
+      tags: stop
+
