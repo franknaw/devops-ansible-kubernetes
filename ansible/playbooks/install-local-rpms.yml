@@ -1,0 +1,29 @@
+- name: Copy and install rpms
+  hosts: base
+  become: yes
+  vars:
+    RPM:
+      - google-chrome-stable_current_x86_64.rpm
+      - apr-1.4.6-2.2.x86_64.rpm
+
+  tasks:
+
+    - name: "Transfer Files"
+      copy:
+        src: "/tmp/rpms/the-rpms/{{ item }}"
+        dest: /tmp/rpms/dest-rpms
+      loop: "{{ RPM }}"
+      register: copied
+
+    - name: "Install RPMs from local copied files"
+      dnf:
+        name: "{{ copied | json_query('results[?!failed].dest[]') }}"
+
+    - name: List updated packages
+      shell: rpm -qa --last | grep "$(date +%a\ %d\ %b\ %Y)" |cut -f 1 -d " "
+      register: result
+      args:
+        warn: no
+
+    - name: Updates packages
+      debug: msg="{{ result.stdout_lines }}"
