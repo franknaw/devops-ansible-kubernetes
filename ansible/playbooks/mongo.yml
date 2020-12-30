@@ -1,3 +1,4 @@
+# ansible-playbook mongo.yml --ask-vault-password --extra-vars '@passwd.yml'
 - hosts: mongo
 #  remote_user: someuser
 #  strategy: debug

@@ -1,3 +1,4 @@
+# ansible-playbook install-rpms.yml --ask-vault-password --extra-vars '@passwd.yml'
 - name: Copy and install rpms
   hosts: base
   become: yes

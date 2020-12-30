@@ -1,0 +1,16 @@
+# ansible-playbook install-sshkey.yml --ask-pass -e "user=theuser pubkey='the actual ssh key string'"
+- hosts: all
+  tasks:
+    - name: make direcotry or not if existing
+      file:
+        path: "/home/{{ user }}/.ssh"
+        state: directory
+    - name: create empty file or not if existing
+      file:
+        path: "/home/{{ user }}/.ssh/authorized_keys"
+        state: touch
+        mode: 0600
+    - name: put pubkey
+      lineinfile:
+        path: "/home/{{ user }}/.ssh/authorized_keys"
+        line: "{{ pubkey }}"
