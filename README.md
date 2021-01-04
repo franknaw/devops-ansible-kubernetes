@@ -1,2 +1,2 @@
 ### DevOps-Docker-Swarm-Ansible
-* See https://github.com/franknaw/devops-docker-swarm-ansible/wiki
+* See https://github.com/franknaw/devops-ansible-kubernetes/wiki
