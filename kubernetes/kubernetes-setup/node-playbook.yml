@@ -43,7 +43,8 @@
         name: vagrant
         group: docker
 
-##
+    ## -----------------------------------
+
     - name: Remove swapfile from /etc/fstab
       mount:
         name: "{{ item }}"
@@ -57,7 +58,8 @@
       command: swapoff -a
       when: ansible_swaptotal_mb > 0
 
-##
+    ## -----------------------------------
+
     - name: Add an apt signing key for Kubernetes
       apt_key:
         url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
@@ -86,7 +88,7 @@
         state: touch
         mode: 0600
 
-    - name: Configure node ip N
+    - name: Configure node ip
       lineinfile:
         path: /etc/default/kubelet
         line: KUBELET_EXTRA_ARGS=--node-ip={{ node_ip }}
@@ -97,14 +99,16 @@
         daemon_reload: yes
         state: restarted
 
-##
+    ## -----------------------------------
+
     - name: Copy the join command to server location
       copy: src=join-command dest=/tmp/join-command.sh mode=0777
 
     - name: Join the node to cluster
       command: sh /tmp/join-command.sh
 
-##
+  ## -----------------------------------
+
   handlers:
     - name: docker status
       service: name=docker state=started
