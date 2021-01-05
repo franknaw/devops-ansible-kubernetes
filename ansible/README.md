@@ -1,4 +1,4 @@
 
 #### See Wiki
 
-* https://github.com/franknaw/devops-docker-swarm-ansible/wiki/DevOps-Ansible
+* https://github.com/franknaw/devops-ansible-kubernetes/wiki/Ansible-Installation-and-Examples
