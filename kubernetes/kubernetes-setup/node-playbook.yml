@@ -45,6 +45,17 @@
 
     ## -----------------------------------
 
+    - name: Install net-tools
+      apt:
+        name: "{{ packages }}"
+        state: present
+        update_cache: yes
+      vars:
+        packages:
+          - net-tools
+
+    ## -----------------------------------
+
     - name: Remove swapfile from /etc/fstab
       mount:
         name: "{{ item }}"
