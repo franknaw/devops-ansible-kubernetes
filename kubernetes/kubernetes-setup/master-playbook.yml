@@ -124,13 +124,25 @@
         - cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
         - chown vagrant:vagrant /home/vagrant/.kube/config
 
+    - name: Copy local tigera config
+      copy:
+        src: /home/tnaw/A2T/dev/devops-ansible-kubernetes/kubernetes/kubernetes-setup/tigera-operator.yaml
+        dest: ./tigera-operator.yaml
+
     - name: Install calico pod network
       become: false
-      command: kubectl create -f https://docs.projectcalico.org/archive/v3.17/manifests/tigera-operator.yaml
+      command: kubectl apply -f tigera-operator.yaml
+      #command: kubectl create -f https://docs.projectcalico.org/archive/v3.17/manifests/tigera-operator.yaml
+
+    - name: Copy local flannel config
+      copy:
+        src: /home/tnaw/A2T/dev/devops-ansible-kubernetes/kubernetes/kubernetes-setup/kube-flannel.yml
+        dest: ./kube-flannel.yml
 
     - name: Install calico pod network addon
       become: false
-      command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml
+      command: kubectl apply -f kube-flannel.yml
+      #command: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml
 
     ## -----------------------------------
 
