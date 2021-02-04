@@ -3,13 +3,25 @@ N = 2
 
 Vagrant.configure("2") do |config|
     config.ssh.insert_key = false
-    config.vm.synced_folder "/srv/nfs4/data", "/srv",
+    config.vm.synced_folder "/srv/nfs4/pdata", "/srv/pdata",
       type: "nfs",
       nfs_version: 4,
-      nfs_udp: false
+      nfs_udp: false,
+      linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
+    config.vm.synced_folder "/srv/nfs4/tdata", "/srv/tdata",
+      type: "nfs",
+      nfs_version: 4,
+      nfs_udp: false,
+      linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
+    config.vm.synced_folder "/srv/nfs4/mdata", "/srv/mdata",
+      type: "nfs",
+      nfs_version: 4,
+      nfs_udp: false,
+      linux__nfs_options: ['rw','no_subtree_check','all_squash','async']
+      #mount_options: ['actimeo=2']
     ## This is for network connectivity with host (DHCP)
     ## This should prompt with option of available interfaces
-    config.vm.network "public_network"
+     config.vm.network "public_network"
 
     config.vm.provider "virtualbox" do |v|
         v.memory = 2024
