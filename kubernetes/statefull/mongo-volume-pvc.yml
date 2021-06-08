@@ -1,11 +1,11 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfs-pv-tomcat
+  name: nfs-pv-mongo
   labels:
-    name: data-tomcat # name can be anything
+    name: data-mongo # name can be anything
 spec:
-  storageClassName: manual-tomcat # same storage class as pvc
+  storageClassName: nfs-mongo # same storage class as pvc
   capacity:
     storage: 1Gi
   accessModes:
@@ -13,16 +13,16 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   nfs:
     server: 192.168.1.160 # ip addres of nfs server
-    path: "/srv/nfs4/tdata" # path to directory
+    path: "/app-mongo/data" # path to directory
 
 ---
 
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: nfs-pvc-tomcat
+  name: nfs-pvc-mongo
 spec:
-  storageClassName: manual-tomcat
+  storageClassName: nfs-mongo
   accessModes:
     - ReadWriteMany #  must be the same as PersistentVolume
   resources:
