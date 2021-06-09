@@ -4,20 +4,21 @@
   gather_facts: false
   vars:
     users:
-      - "foop"
-      - "tnaw"
-      - "ff"
+      - "user1"
+      - "user2"
+      - "user3"
 
   tasks:
     - name: Check User Account Status
-      command: sh /home/tnaw/A2T/dev/devops-ansible-kubernetes/ansible/scripts/get-user-status.sh "{{ item }}"
+      shell: if id "{{ item }}" &>/dev/null; then echo "====== {{ item }} : $(hostname) ======" && id "{{ item }}" && chage -l "{{ item }}"; else echo "====== NOT FOUND {{ item }} : $(hostname) ======"; fi
+      #script: /some/location/devops-ansible-kubernetes/ansible/scripts/get-user-status.sh "{{ item }}"
       register: out
       with_items: "{{ users }}"
       check_mode: no
       ignore_errors: true
 
-    - name: print out put
+    - name: Print Status
       debug:
-        msg: "{{ out.results | map(attribute='stdout_lines') | list }}"
+        msg: "{{ out.results | map(attribute='stdout') | list }}"
 
 
