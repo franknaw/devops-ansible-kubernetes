@@ -1,0 +1,12 @@
+# ansible-playbook reboot-server.yml --ask-vault --extra-vars '@passwd.yml'
+- hosts: myServer
+  become: true
+  tasks:
+    - name: Reboot Server
+      command: /sbin/shutdown -r +1 "Ansible Triggered Reboot"
+      async: 0
+      poll: 0
+      
+    - name: Wait for server to restart
+      wait_for_connection:
+         delay: 75
