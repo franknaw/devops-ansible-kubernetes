@@ -1,0 +1,16 @@
+# ansible-playbook create-user.yml --ask-pass '@password.yml' "user=myuser host='myhost' password='users-password'"
+- hosts: "{{ host }}"
+  become: true
+  tasks:
+    - name: Create User
+      user:
+        name: "{{ user }}"
+        password: "{{ password }}"
+        group: users-group
+        groups:
+         - some-group
+         - wheel
+        state: present
+        shell: /bin/bash
+        system: false
+        createhome: true
