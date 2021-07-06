@@ -1,11 +1,12 @@
 # ansible-playbook install-sshkey.yml --ask-pass -e "user=theuser pubkey='the actual ssh key string'"
+# This is a rough out and needs testing.
 - hosts: all
   tasks:
-    - name: make direcotry or not if existing
+    - name: make direcotry if needed
       file:
         path: "/home/{{ user }}/.ssh"
         state: directory
-    - name: create empty file or not if existing
+    - name: create empty file if needed
       file:
         path: "/home/{{ user }}/.ssh/authorized_keys"
         state: touch
@@ -14,3 +15,10 @@
       lineinfile:
         path: "/home/{{ user }}/.ssh/authorized_keys"
         line: "{{ pubkey }}"
+    - name: Set Directory Perms
+      file:
+        path: "/home/{{ user }}.ssh
+        group: "the-group"
+        state: directory
+        mode: 0600
+        recurse: yes
