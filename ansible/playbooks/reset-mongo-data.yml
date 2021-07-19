@@ -1,4 +1,4 @@
-# ansible-playbook tomcat.yml --ask-vault --extra-vars '@passwd.yml' -e "theServer=server"
+# ansible-playbook reset-mongo-data.yml --ask-vault --extra-vars '@passwd.yml' -e "theServer=server"
 - hosts: "{{ theServer }}"
   become: true
 
