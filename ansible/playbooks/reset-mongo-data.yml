@@ -1,0 +1,18 @@
+# ansible-playbook tomcat.yml --ask-vault --extra-vars '@passwd.yml' -e "theServer=server"
+- hosts: "{{ theServer }}"
+  become: true
+
+  tasks:
+    - name: Stop Mongo
+      service: name=mongod state=stopped
+      tags: stop
+
+    - name: Remove Data Directory
+      shell: /bin/rm -rf /data/db/*
+      args:
+        warn: false
+      tags: clean
+
+    - name: Restart Mongo
+      service: name=mongod state=restarted
+      tags: restart
