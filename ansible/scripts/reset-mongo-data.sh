@@ -7,4 +7,4 @@ fi
 
 echo "Using Host $1"
 
-ANSIBLE_STDOUT_CALLBACK=yaml ansible-playbook ~/A2T/dev/devops-ansible-kubernetes/ansible/playbooks/reset-mongo-data.yml --ask-vault-password --extra-vars '@passwd.yml' -e "theServer=$1"
+ansible-playbook ~/A2T/dev/devops-ansible-kubernetes/ansible/playbooks/reset-mongo-data.yml --ask-vault-password --extra-vars '@passwd.yml' -e "theServer=$1"
